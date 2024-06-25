@@ -23,7 +23,7 @@
     <string name="setting_desc_power_off_dismiss_sequence">
         After the fake power off is completed, the device will be blocked by an empty black screen.
         Dismiss the screen using custom sequential volume button presses.
-        The sequence must only include 'U' for volume up and 'D' for volume down.</string>
+        The sequence must only include \'U\' for volume up and \'D\' for volume down.</string>
     <string name="setting_desc_enable_dnd_mode">
         If enabled, this setting will put the device into DND mode during the fake
         power off sequence. Please customize the DND mode from the android settings.</string>
@@ -32,10 +32,10 @@
     <string name="text_instructions">Usage instructions:
         \n1. Enable Fake Power Off in the settings menu.
         \n2. Configure rest of the settings as needed.
-        \n3. Hold power button for power menu.
-        \n4. FPO will dismiss the original power menu with a fake.
+        \n3. Hold power button for ~5s for original power menu.
+        \n4. FPO will dismiss the original power menu with a fake menu.
         \n5. Pressing any of the buttons will trigger the fake shutdown.
-        \n6. Recover from the black overlay using the volume buttons (UUDD).</string>
+        \n6. Recover from the black overlay using the set volume buttons.</string>
     <string name="text_about">The Fake Power Off app simulates device shutdown with a minimal animation.
         Perfect for deterring unauthorized access, the app provides a convincing visual effect without actually powering off the device.
         Works best when paired with an anti-theft app.</string>

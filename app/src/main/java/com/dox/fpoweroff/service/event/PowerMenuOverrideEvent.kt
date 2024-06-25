@@ -122,9 +122,9 @@ class PowerMenuOverrideEvent @Inject constructor(
             delay(3000L)
             vibrateDevice(context)
             lockDevice(performGlobalAction)
+            emptyDialog = showEmptyDialog(context)
             delay(2000L)
             showShutdownDialog.dismiss()
-            emptyDialog = showEmptyDialog(context)
         }
     }
 
@@ -181,14 +181,16 @@ class PowerMenuOverrideEvent @Inject constructor(
     }
 
     private fun vibrateDevice(context: Context) {
+        val vibrationDuration = 700L
+        val vibrationIntensity = 255
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
             val vibratorManager = context.getSystemService(Context.VIBRATOR_MANAGER_SERVICE) as VibratorManager
             val vibrator = vibratorManager.defaultVibrator
-            vibrator.vibrate(VibrationEffect.createOneShot(700, VibrationEffect.DEFAULT_AMPLITUDE))
+            vibrator.vibrate(VibrationEffect.createOneShot(vibrationDuration, vibrationIntensity))
         } else {
             val vibrator = context.getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
             if (vibrator.hasVibrator()) {
-                vibrator.vibrate(VibrationEffect.createOneShot(700, VibrationEffect.DEFAULT_AMPLITUDE))
+                vibrator.vibrate(VibrationEffect.createOneShot(vibrationDuration, vibrationIntensity))
             }
         }
     }
