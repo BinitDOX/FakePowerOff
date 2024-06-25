@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:gravity="center"
+    android:background="@drawable/rounded_dialog"
+    android:padding="16dp"
+    android:layout_marginStart="16dp"
+    android:layout_marginEnd="16dp"
+    android:layout_marginBottom="96dp"
+    android:clipToPadding="false">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="center_horizontal"
+            android:background="@color/power_menu_bg"
+            android:padding="6dp"
+            android:layout_marginEnd="6dp"
+            android:clipToPadding="false"
+            android:clipChildren="false"
+            android:outlineProvider="background">
+
+            <ImageButton
+                android:id="@+id/btn_emergency"
+                android:layout_width="96dp"
+                android:layout_height="96dp"
+                android:background="@drawable/circle_button_red"
+                android:src="@android:drawable/stat_sys_warning"
+                android:contentDescription="@string/emergency"
+                android:onClick="onEmergencyClicked"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/emergency"
+                android:textColor="@color/white"
+                android:textSize="14sp"
+                android:layout_marginTop="8dp"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="center_horizontal"
+            android:background="@color/power_menu_bg"
+            android:padding="6dp"
+            android:clipToPadding="false"
+            android:clipChildren="false"
+            android:outlineProvider="background">
+
+            <ImageButton
+                android:id="@+id/btn_power_off"
+                android:layout_width="96dp"
+                android:layout_height="96dp"
+                android:background="@drawable/circle_button"
+                android:src="@android:drawable/ic_lock_power_off"
+                android:tint="@color/white"
+                android:contentDescription="@string/power_off"
+                android:onClick="onPowerOffClicked"
+                tools:ignore="UseAppTint" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/power_off"
+                android:textColor="@color/white"
+                android:textSize="14sp"
+                android:layout_marginTop="8dp"/>
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:layout_marginTop="6dp"
+        android:background="@color/power_menu_bg"
+        android:padding="6dp"
+        android:clipToPadding="false"
+        android:outlineProvider="background">
+
+        <ImageButton
+            android:id="@+id/btn_restart"
+            android:layout_width="96dp"
+            android:layout_height="96dp"
+            android:background="@drawable/circle_button"
+            android:src="@android:drawable/ic_popup_sync"
+            android:tint="@color/white"
+            android:contentDescription="@string/restart"
+            android:onClick="onRestartClicked"
+            tools:ignore="UseAppTint" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/restart"
+            android:textColor="@color/white"
+            android:textSize="14sp"
+            android:layout_marginTop="8dp"/>
+    </LinearLayout>
+
+</LinearLayout>

@@ -1,0 +1,29 @@
+package com.dox.fpoweroff.utility
+
+import com.dox.fpoweroff.ui.data.RouteItem
+
+object Constants {
+    // Build Constants
+    const val APP_ID = "fpo"
+    const val APP_NAME = "FPowerOff"
+
+    // Nav Constants
+    val START_ROUTE = RouteItem.Home.route
+
+    // Package Constants
+    const val SYSTEM_UI_PACKAGE = "com.android.systemui"
+
+    // Shared Preferences Constants
+    const val APP_PREFS = "${APP_ID}_shared_prefs"
+    const val F_POWER_OFF_ENABLED_KEY = "f_power_off_enabled"
+    const val DIALOG_CLOSE_TRIGGER_SEQUENCE_KEY = "dialog_close_trigger_sequence"
+    const val DIALOG_CLOSE_TRIGGER_SEQUENCE_DEFAULT = "UUDD"
+    const val DND_MODE_ENABLED_KEY = "dnd_mode_enabled"
+    const val LOCK_DEVICE_ENABLED_KEY = "lock_device_enabled"
+
+    // Permission Constants
+    enum class SpecialPermission(val value: String) {
+        ACCESSIBILITY("Accessibility"),
+        DND("Do Not Disturb"),
+    }
+}
