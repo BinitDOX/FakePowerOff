@@ -2,6 +2,7 @@
 The Fake Power Off app convincingly simulates device shutdown using a subtle animation, effectively deterring unauthorized access without actually powering off the device. It may seamlessly be integrated with anti-theft apps and remains effective even when the device is locked.
 
 ## Demo Video:
+Short demo: <a href="https://youtube.com/shorts/NDdwKGHlrnw"/>Link</a>
 
 ## Usage Instructions:
 0. Download the app from the <a href="https://github.com/BinitDOX/FakePowerOff/releases/tag/v0.1">releases</a> page and install it.
