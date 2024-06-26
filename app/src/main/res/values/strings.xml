@@ -38,5 +38,5 @@
         \n6. Recover from the black overlay using the set volume buttons.</string>
     <string name="text_about">The Fake Power Off app simulates device shutdown with a minimal animation.
         Perfect for deterring unauthorized access, the app provides a convincing visual effect without actually powering off the device.
-        Works best when paired with an anti-theft app.</string>
+        Ideal for use with anti-theft apps and remains effective even when the device is locked.</string>
 </resources>
