@@ -26,4 +26,9 @@ object Constants {
         ACCESSIBILITY("Accessibility"),
         DND("Do Not Disturb"),
     }
+
+    // Logging Constants
+    const val PRIVATE_LOGS = false
+    const val PERIODIC_LOG_DELETION_INTERVAL_DAYS = 5L
+    const val LOG_WORKER_NAME = "LOG_worker"
 }

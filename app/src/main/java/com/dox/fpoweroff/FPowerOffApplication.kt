@@ -2,6 +2,7 @@ package com.dox.fpoweroff
 
 import android.app.Application
 import com.dox.fpoweroff.logging.FileLoggingTree
+import com.dox.fpoweroff.utility.Constants.PRIVATE_LOGS
 import dagger.hilt.android.HiltAndroidApp
 import timber.log.Timber
 
@@ -15,6 +16,6 @@ class FPowerOffApplication : Application() {
             Timber.plant(Timber.DebugTree())
         }
 
-        Timber.plant(FileLoggingTree(this, false))
+        Timber.plant(FileLoggingTree(this, PRIVATE_LOGS))
     }
 }

@@ -6,8 +6,14 @@ import android.os.Handler
 import android.os.Looper
 import android.util.Log
 import android.widget.Toast
+import androidx.work.ExistingPeriodicWorkPolicy
+import androidx.work.PeriodicWorkRequestBuilder
+import androidx.work.WorkManager
 import com.dox.fpoweroff.utility.Constants.APP_ID
 import com.dox.fpoweroff.utility.Constants.APP_NAME
+import com.dox.fpoweroff.utility.Constants.LOG_WORKER_NAME
+import com.dox.fpoweroff.utility.Constants.PERIODIC_LOG_DELETION_INTERVAL_DAYS
+import com.dox.fpoweroff.worker.LogMaintenanceWorker
 import timber.log.Timber
 import java.io.File
 import java.io.FileWriter
@@ -15,6 +21,7 @@ import java.io.PrintWriter
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Locale
+import java.util.concurrent.TimeUnit
 
 class FileLoggingTree(private val context: Context,
                       private val writeToPrivateDir: Boolean = true,
@@ -25,6 +32,7 @@ class FileLoggingTree(private val context: Context,
         // Set this class as the default uncaught exception handler
         defaultUncaughtExceptionHandler = Thread.getDefaultUncaughtExceptionHandler()
         Thread.setDefaultUncaughtExceptionHandler(this)
+        schedulePeriodicWorker()
     }
 
     override fun uncaughtException(t: Thread, e: Throwable) {
@@ -39,10 +47,8 @@ class FileLoggingTree(private val context: Context,
             val crashMessage = "Something went wrong, $APP_NAME will crash"
             Toast.makeText(context, crashMessage, Toast.LENGTH_LONG).show()
 
-            Handler(Looper.getMainLooper()).postDelayed ({
-                isLoggingException = false
-                defaultUncaughtExceptionHandler?.uncaughtException(t, e)
-            }, 3000)
+            isLoggingException = false
+            defaultUncaughtExceptionHandler?.uncaughtException(t, e)
         }
     }
 
@@ -78,7 +84,8 @@ class FileLoggingTree(private val context: Context,
         val logDir = if (writeToPrivateDir) {
             File(context.filesDir, "${APP_ID}-logs")
         } else {
-            Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS)
+            File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS),
+                "${APP_ID}-logs")
         }
 
         if (!logDir.exists()) {
@@ -104,6 +111,23 @@ class FileLoggingTree(private val context: Context,
             Log.ASSERT -> "ASSERT"
             else -> "UNKNOWN"
         }
+    }
+
+    private fun schedulePeriodicWorker(){
+        val repeatInterval = PERIODIC_LOG_DELETION_INTERVAL_DAYS
+
+        val workRequest = PeriodicWorkRequestBuilder<LogMaintenanceWorker>(repeatInterval, TimeUnit.DAYS)
+            .setInitialDelay(10, TimeUnit.SECONDS)
+            .addTag(LOG_WORKER_NAME)
+            .build()
+
+        WorkManager.getInstance(context).enqueueUniquePeriodicWork(
+            LOG_WORKER_NAME,
+            ExistingPeriodicWorkPolicy.REPLACE,
+            workRequest
+        )
+
+        Timber.d("[${::schedulePeriodicWorker.name}] [${LOG_WORKER_NAME}] Scheduled")
     }
 
     companion object {
