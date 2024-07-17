@@ -21,8 +21,12 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        permissionManager.checkAccessibilityPermission(this)
-        permissionManager.checkDNDPermission(this)
+        if(!permissionManager.checkAccessibilityPermission(this, false)) {
+            permissionManager.showAccessibilityDisclosureDialog(this) {
+                permissionManager.checkAccessibilityPermission(this)
+                permissionManager.checkDNDPermission(this)
+            }
+        }
 
         setContent {
             FPowerOffTheme {

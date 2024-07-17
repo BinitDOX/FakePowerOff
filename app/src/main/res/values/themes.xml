@@ -2,4 +2,9 @@
 <resources>
 
     <style name="Theme.FPowerOff" parent="android:Theme.Material.Light.NoActionBar" />
+
+    <style name="AlertDialogCustom" parent="android:Theme.Material.Dialog.Alert">
+        <item name="android:colorAccent">@color/accent</item>
+        <item name="android:background">@color/power_menu_bg</item>
+    </style>
 </resources>
