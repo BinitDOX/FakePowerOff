@@ -18,6 +18,7 @@ import android.view.accessibility.AccessibilityNodeInfo
 import android.widget.ImageButton
 import com.dox.fpoweroff.R
 import com.dox.fpoweroff.manager.SharedPreferencesManager
+import com.dox.fpoweroff.service.event.DialogCloseEvent.Companion.dialogCloseTriggerSequence
 import com.dox.fpoweroff.utility.Constants
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -122,6 +123,9 @@ class PowerMenuOverrideEvent @Inject constructor(
             delay(3000L)
             vibrateDevice(context)
             lockDevice(performGlobalAction)
+            if(dialogCloseTriggerSequence.isNullOrBlank()){
+                dialogCloseTriggerSequence = Constants.DIALOG_CLOSE_TRIGGER_SEQUENCE_DEFAULT
+            }
             emptyDialog = showEmptyDialog(context)
             delay(2000L)
             showShutdownDialog.dismiss()
