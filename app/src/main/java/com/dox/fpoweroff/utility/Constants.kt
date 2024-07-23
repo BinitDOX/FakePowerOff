@@ -13,6 +13,7 @@ object Constants {
     // Package Constants
     const val SYSTEM_UI_PACKAGE = "com.android.systemui"
 
+
     // Shared Preferences Constants
     const val APP_PREFS = "${APP_ID}_shared_prefs"
     const val F_POWER_OFF_ENABLED_KEY = "f_power_off_enabled"
@@ -20,6 +21,10 @@ object Constants {
     const val DIALOG_CLOSE_TRIGGER_SEQUENCE_DEFAULT = "UUDD"
     const val DND_MODE_ENABLED_KEY = "dnd_mode_enabled"
     const val LOCK_DEVICE_ENABLED_KEY = "lock_device_enabled"
+    const val DETECT_PACKAGE_NAME_KEY = "detect_package_name"
+    const val DETECT_PACKAGE_NAME_DEFAULT = SYSTEM_UI_PACKAGE
+    const val DETECT_KEYWORDS_KEY = "detect_keywords"
+    const val DETECT_KEYWORDS_DEFAULT = "power off, restart, emergency, poweroff, shutdown, shut down"
 
     // Permission Constants
     enum class SpecialPermission(val value: String) {

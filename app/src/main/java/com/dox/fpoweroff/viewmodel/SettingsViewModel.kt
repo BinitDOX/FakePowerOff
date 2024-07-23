@@ -6,6 +6,8 @@ import com.dox.fpoweroff.manager.PermissionManager
 import com.dox.fpoweroff.manager.SharedPreferencesManager
 import com.dox.fpoweroff.service.event.DialogCloseEvent
 import com.dox.fpoweroff.service.event.PowerMenuOverrideEvent
+import com.dox.fpoweroff.utility.Constants.DETECT_KEYWORDS_KEY
+import com.dox.fpoweroff.utility.Constants.DETECT_PACKAGE_NAME_KEY
 import com.dox.fpoweroff.utility.Constants.DIALOG_CLOSE_TRIGGER_SEQUENCE_KEY
 import com.dox.fpoweroff.utility.Constants.DND_MODE_ENABLED_KEY
 import com.dox.fpoweroff.utility.Constants.F_POWER_OFF_ENABLED_KEY
@@ -34,12 +36,16 @@ class SettingsViewModel @Inject constructor(
     private val _lockDeviceEnabled = MutableStateFlow("")
     val lockDeviceEnabled = _lockDeviceEnabled.asStateFlow()
 
+    private val _detectPackageName = MutableStateFlow("")
+    val detectPackageName = _detectPackageName.asStateFlow()
+
+    private val _detectKeywords = MutableStateFlow("")
+    val detectKeywords = _detectKeywords.asStateFlow()
+
     init {
         getSettings()
     }
 
-    private val _isSaved = MutableStateFlow(false)
-    val isSaved = _isSaved.asStateFlow()
 
     fun setFPowerOffEnabled(value: String) {
         if(value.toBoolean()) {
@@ -67,11 +73,21 @@ class SettingsViewModel @Inject constructor(
         _lockDeviceEnabled.value = value
     }
 
+    fun setDetectPackageName(value: String) {
+        _detectPackageName.value = value
+    }
+
+    fun setDetectKeywords(value: String) {
+        _detectKeywords.value = value
+    }
+
     private fun getSettings() {
         _fPowerOffEnabled.value = sharedPreferencesManager.get(F_POWER_OFF_ENABLED_KEY) ?: ""
         _dialogCloseTriggerSequence.value = sharedPreferencesManager.get(DIALOG_CLOSE_TRIGGER_SEQUENCE_KEY) ?: ""
         _dndModeEnabled.value = sharedPreferencesManager.get(DND_MODE_ENABLED_KEY) ?: ""
         _lockDeviceEnabled.value = sharedPreferencesManager.get(LOCK_DEVICE_ENABLED_KEY) ?: ""
+        _detectPackageName.value = sharedPreferencesManager.get(DETECT_PACKAGE_NAME_KEY) ?: ""
+        _detectKeywords.value = sharedPreferencesManager.get(DETECT_KEYWORDS_KEY) ?: ""
     }
 
     fun saveFPowerOffEnabled() {
@@ -92,5 +108,15 @@ class SettingsViewModel @Inject constructor(
     fun saveLockDeviceEnabled(){
         sharedPreferencesManager.save(LOCK_DEVICE_ENABLED_KEY, _lockDeviceEnabled.value)
         PowerMenuOverrideEvent.lockDeviceEnabled = _lockDeviceEnabled.value.toBoolean()
+    }
+
+    fun saveDetectPackageName() {
+        sharedPreferencesManager.save(DETECT_PACKAGE_NAME_KEY, _detectPackageName.value)
+        PowerMenuOverrideEvent.detectPackageName = _detectPackageName.value
+    }
+
+    fun saveDetectKeywords() {
+        sharedPreferencesManager.save(DETECT_KEYWORDS_KEY, _detectKeywords.value)
+        PowerMenuOverrideEvent.detectKeywords = _detectKeywords.value.split(',').map { it.trim() }
     }
 }

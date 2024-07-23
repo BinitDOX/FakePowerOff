@@ -26,8 +26,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.focus.onFocusChanged
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.buildAnnotatedString
+import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -48,6 +52,8 @@ fun SettingsScreen(
     val dialogCloseTriggerSequence by settingsViewModel.dialogCloseTriggerSequence.collectAsStateWithLifecycle()
     val dndModeEnabled by settingsViewModel.dndModeEnabled.collectAsStateWithLifecycle()
     val lockDeviceEnabled by settingsViewModel.lockDeviceEnabled.collectAsStateWithLifecycle()
+    val detectPackageName by settingsViewModel.detectPackageName.collectAsStateWithLifecycle()
+    val detectKeywords by settingsViewModel.detectKeywords.collectAsStateWithLifecycle()
 
     val focusRequester = remember { FocusRequester() }
 
@@ -189,6 +195,51 @@ fun SettingsScreen(
                 Text(
                     text =  stringResource(id = R.string.setting_desc_power_off_dismiss_sequence) +
                             " Default is: ${Constants.DIALOG_CLOSE_TRIGGER_SEQUENCE_DEFAULT}",
+                    style = MaterialTheme.typography.bodySmall,
+                    color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.7f)
+                )
+
+                Spacer(modifier = Modifier.height(interFieldSpacing))
+
+
+                TextField(
+                    value = detectPackageName,
+                    onValueChange = { settingsViewModel.setDetectPackageName(it) },
+                    label = { Text(stringResource(id = R.string.placeholder_detect_package_name)) },
+                    singleLine = true,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .focusRequester(focusRequester)
+                        .onFocusChanged { if (!it.isFocused) settingsViewModel.saveDetectPackageName() }
+                )
+                Text(
+                    text =  buildAnnotatedString {
+                                append(stringResource(id = R.string.setting_desc_detect_package_name))
+                                withStyle(style = SpanStyle(color = Color.Red.copy(alpha = 0.7f))) {
+                                    append(stringResource(R.string.setting_desc_dont_change))
+                                }
+                                append(" Default is: ${Constants.DETECT_PACKAGE_NAME_DEFAULT}")
+                            },
+                    style = MaterialTheme.typography.bodySmall,
+                    color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.7f)
+                )
+
+                Spacer(modifier = Modifier.height(interFieldSpacing))
+
+
+                TextField(
+                    value = detectKeywords,
+                    onValueChange = { settingsViewModel.setDetectKeywords(it) },
+                    label = { Text(stringResource(id = R.string.placeholder_detect_keywords)) },
+                    singleLine = true,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .focusRequester(focusRequester)
+                        .onFocusChanged { if (!it.isFocused) settingsViewModel.saveDetectKeywords() }
+                )
+                Text(
+                    text =  stringResource(id = R.string.setting_desc_detect_keywords) +
+                            " Default is/are: ${Constants.DETECT_KEYWORDS_DEFAULT}",
                     style = MaterialTheme.typography.bodySmall,
                     color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.7f)
                 )

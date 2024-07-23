@@ -16,13 +16,9 @@ import android.view.WindowManager
 import android.view.accessibility.AccessibilityEvent
 import android.view.accessibility.AccessibilityNodeInfo
 import android.widget.ImageButton
-import androidx.core.content.ContextCompat.getSystemService
 import com.dox.fpoweroff.R
 import com.dox.fpoweroff.manager.SharedPreferencesManager
-import com.dox.fpoweroff.service.EventListenerService
 import com.dox.fpoweroff.utility.Constants
-import dagger.hilt.android.qualifiers.ActivityContext
-import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
@@ -38,6 +34,8 @@ class PowerMenuOverrideEvent @Inject constructor(
         var fPowerOffEnabled = false
         var dndModeEnabled = false
         var lockDeviceEnabled = false
+        var detectPackageName = ""
+        var detectKeywords = listOf<String>()
 
         var emptyDialog: Dialog? = null
     }
@@ -46,10 +44,12 @@ class PowerMenuOverrideEvent @Inject constructor(
         fPowerOffEnabled = sharedPreferencesManager.get(Constants.F_POWER_OFF_ENABLED_KEY).toBoolean()
         dndModeEnabled = sharedPreferencesManager.get(Constants.DND_MODE_ENABLED_KEY).toBoolean()
         lockDeviceEnabled = sharedPreferencesManager.get(Constants.LOCK_DEVICE_ENABLED_KEY).toBoolean()
+        detectPackageName = sharedPreferencesManager.get(Constants.DETECT_PACKAGE_NAME_KEY).toString()
+        detectKeywords = sharedPreferencesManager.get(Constants.DETECT_KEYWORDS_KEY)?.split(',')
+            ?.map { it.trim() } ?: Constants.DETECT_KEYWORDS_DEFAULT.split(',')
     }
 
     private var powerMenuOpen = false
-    private val powerMenuKeywords = listOf("power off", "restart", "emergency", "poweroff")
 
     fun handlePowerMenuEvent(context: Context, event: AccessibilityEvent, performGlobalAction: (Int) -> Unit) {
         if (!fPowerOffEnabled) return
@@ -71,10 +71,10 @@ class PowerMenuOverrideEvent @Inject constructor(
                     val contentDescription = currentNode.contentDescription?.toString()
 
                     if (!powerMenuOpen && (
-                        (tooltipText != null && powerMenuKeywords.any { tooltipText.contains(it, ignoreCase = true) }) ||
-                        (hintText != null && powerMenuKeywords.any { hintText.contains(it, ignoreCase = true) }) ||
-                        (contentDescription != null && powerMenuKeywords.any { contentDescription.contains(it, ignoreCase = true) }) ||
-                        (text != null && powerMenuKeywords.any { text.contains(it, ignoreCase = true)})
+                        (tooltipText != null && detectKeywords.any { tooltipText.contains(it, ignoreCase = true) }) ||
+                        (hintText != null && detectKeywords.any { hintText.contains(it, ignoreCase = true) }) ||
+                        (contentDescription != null && detectKeywords.any { contentDescription.contains(it, ignoreCase = true) }) ||
+                        (text != null && detectKeywords.any { text.contains(it, ignoreCase = true)})
                     )){
                         powerMenuOpen = true
                         Timber.d("[${::handlePowerMenuEvent.name}] Detected")

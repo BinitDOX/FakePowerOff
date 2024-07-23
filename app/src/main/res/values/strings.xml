@@ -14,6 +14,8 @@
     <string name="placeholder_enable_fake_power_off">Enable Fake Power Off</string>
     <string name="placeholder_dnd_mode_enabled">Enable DND Mode</string>
     <string name="placeholder_lock_device_enabled">Enable Lock Device</string>
+    <string name="placeholder_detect_package_name">Detect Package Name</string>
+    <string name="placeholder_detect_keywords">Detect Keywords</string>
 
     <string name="btn_settings">Settings</string>
 
@@ -27,7 +29,17 @@
     <string name="setting_desc_enable_dnd_mode">
         If enabled, this setting will put the device into DND mode during the fake
         power off sequence. Please customize the DND mode from the android settings.</string>
-    <string name="setting_desc_enable_lock_device">If enabled, this setting will lock the device (lockscreen) during the fake shutdown sequence.</string>
+    <string name="setting_desc_enable_lock_device">
+        Enable this setting to lock the device during the fake shutdown sequence.
+        Before using the recovery sequence input, wake the device with the Power button.
+        Although the screen remains invisible, the device should be awake.
+        Then proceed with the recovery sequence.</string>
+    <string name="setting_desc_detect_package_name">
+        This is the only application package that will be detected by the accessibility service.
+        The in-built power menu usually comes under the system.ui package.</string>
+    <string name="setting_desc_detect_keywords">
+        These are the keywords that will be detected by the accessibility service, under the package specified above to override the default power menu.
+        You may change these (comma separated) if the default power menu is not being overridden or it gets triggered by false positives.</string>
 
     <string name="text_instructions">Usage instructions:
         \n1. Enable Fake Power Off in the settings menu.
@@ -35,10 +47,12 @@
         \n3. Hold power button for ~5s for original power menu.
         \n4. FPO will dismiss the original power menu with a fake menu.
         \n5. Pressing any of the buttons will trigger the fake shutdown.
-        \n6. Recover from the black overlay using the set volume buttons.</string>
+        \n6. Use the set volume buttons to recover from the black overlay.
+        \n7. Wake the device first (Power button) before inputting the sequence.</string>
     <string name="text_about">The Fake Power Off app simulates device shutdown with a minimal animation.
         Perfect for deterring unauthorized access, the app provides a convincing visual effect without actually powering off the device.
         Ideal for use with anti-theft apps and remains effective even when the device is locked.</string>
     <string name="prominent_disclosure_title">Prominent Disclosure: Permission Required</string>
     <string name="prominent_disclosure_body">\nThis app requires the Accessibility Service permission to provide its core functionality. Specifically, this permission allows the app to:\n\n1. Detect when the power menu is opened.\n2. Replace the default power menu with a custom fake power menu.\n3. Simulating a device shutdown by using an overlay.\n4. Detect volume button press sequence to recover from the overlay.\n\nThe Accessibility Service permission is crucial for the app to function correctly and provide the intended user experience. This app does not change any settings without your permission, bypass Android\'s built-in privacy controls, or engage in any deceptive practices.\n\nAdditionally, the app requests the Do Not Disturb (DND) permission to optionally put the device in the DND mode during the fake power off simulation. This permission is optional and can be granted if you wish to use this feature.\n\nBy continuing, you acknowledge the necessity of these permissions for the app\'s functionality. Do you wish to proceed?\n</string>
+    <string name="setting_desc_dont_change">" This setting typically should not be altered. "</string>
 </resources>
