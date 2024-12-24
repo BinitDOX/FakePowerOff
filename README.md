@@ -5,7 +5,7 @@ The Fake Power Off app convincingly simulates device shutdown using a subtle ani
 Short demo: <a href="https://youtube.com/shorts/NDdwKGHlrnw"/>Link</a>
 
 ## Usage Instructions:
-0. Download the app from the <a href="https://github.com/BinitDOX/FakePowerOff/releases/tag/v0.1">releases</a> page and install it.
+0. Download the app from the <a href="https://github.com/BinitDOX/FakePowerOff/releases/tag/v0.1">releases</a> page and install it. (Outdated)
 1. Give the necessary accessibility and dnd permission.
 2. Enable Fake Power Off in the settings menu.
 3. Configure rest of the settings as needed, specially the dismiss sequence.
