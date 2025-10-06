@@ -1,42 +1,47 @@
 package com.dox.fpoweroff.ui.navigation
 
-import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.pager.rememberPagerState
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.dox.fpoweroff.ui.component.BottomBar
 import com.dox.fpoweroff.ui.data.RouteItem
-import com.dox.fpoweroff.ui.screen.HomeScreen
-import com.dox.fpoweroff.ui.screen.SettingsScreen
+import com.dox.fpoweroff.ui.screen.AboutScreen
+import com.dox.fpoweroff.ui.screen.AdvancedSettingsScreen
+import com.dox.fpoweroff.ui.screen.DashboardScreen
+import com.dox.fpoweroff.ui.screen.TutorialScreen
 import com.dox.fpoweroff.ui.theme.FPowerOffTheme
 import com.dox.fpoweroff.utility.Constants.START_ROUTE
 
 @Composable
 fun MainNavigation(
-    startRoute: String? = START_ROUTE,
+    startRoute: String = START_ROUTE,
 ) {
     val navController = rememberNavController()
 
-    Surface(
-        modifier = Modifier.fillMaxSize(),
-        color = MaterialTheme.colorScheme.background
-    ) {
+    Scaffold(
+        bottomBar = { BottomBar(navController = navController) }
+    ) { innerPadding ->
         NavHost(
             navController = navController,
-            startDestination = startRoute ?: START_ROUTE,
+            startDestination = startRoute,
+            modifier = Modifier.padding(innerPadding)
         ) {
-            composable(RouteItem.Home.route) {
-                HomeScreen(navController)
+            composable(RouteItem.Dashboard.route) {
+                DashboardScreen(navController)
             }
-            composable(RouteItem.Settings.route) {
-                SettingsScreen(navController)
+            composable(RouteItem.Tutorial.route) {
+                TutorialScreen(navController)
+            }
+            composable(RouteItem.AdvancedSettings.route) {
+                AdvancedSettingsScreen(navController)
+            }
+            composable(RouteItem.About.route) {
+                AboutScreen(navController)
             }
         }
     }

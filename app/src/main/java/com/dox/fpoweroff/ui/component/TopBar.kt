@@ -9,7 +9,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
-import androidx.compose.material.icons.outlined.Settings
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -24,9 +23,6 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.NavHostController
 import com.dox.fpoweroff.R
-import com.dox.fpoweroff.ui.data.ActionItem
-import com.dox.fpoweroff.ui.data.OverflowMode
-import com.dox.fpoweroff.ui.data.RouteItem
 import com.dox.fpoweroff.ui.theme.FPowerOffTheme
 
 @Composable
@@ -35,23 +31,15 @@ fun TopBar(
     @StringRes title: Int,
     showBackButton: Boolean,
 ) {
-    val actionItems = listOf(
-        ActionItem(R.string.btn_settings, Icons.Outlined.Settings, OverflowMode.ALWAYS_OVERFLOW) {
-            if (navController.currentDestination?.route != RouteItem.Settings.route)
-                navController.navigate(RouteItem.Settings.route)
-        },
-    )
-
     Row(
         modifier = Modifier
             .fillMaxWidth()
             .height(70.dp)
             .background(MaterialTheme.colorScheme.tertiary)
             .padding(14.dp),
-            verticalAlignment = Alignment.CenterVertically
+        verticalAlignment = Alignment.CenterVertically
     ) {
-
-        if(showBackButton){
+        if (showBackButton) {
             IconButton(onClick = { navController.popBackStack() } ) {
                 Icon(
                     imageVector = Icons.AutoMirrored.Filled.ArrowBack,
@@ -68,16 +56,8 @@ fun TopBar(
         )
 
         Spacer(modifier = Modifier.weight(1f))
-
-        Row {
-            ActionMenu(
-                items = actionItems,
-                numIcons = 2,
-            )
-        }
     }
 }
-
 
 @Preview
 @Composable
@@ -85,8 +65,8 @@ fun TopBarPreview() {
     FPowerOffTheme {
         TopBar(
             NavHostController(LocalContext.current),
-            R.string.screen_settings,
-            true
+            R.string.screen_dashboard,
+            false
         )
     }
 }

@@ -8,7 +8,7 @@ object Constants {
     const val APP_NAME = "FPowerOff"
 
     // Nav Constants
-    val START_ROUTE = RouteItem.Home.route
+    val START_ROUTE = RouteItem.Dashboard.route
 
     // Package Constants
     const val SYSTEM_UI_PACKAGE = "com.android.systemui"
@@ -16,6 +16,7 @@ object Constants {
 
     // Shared Preferences Constants
     const val APP_PREFS = "${APP_ID}_shared_prefs"
+    const val TUTORIAL_COMPLETED_KEY = "tutorial_completed"
     const val F_POWER_OFF_ENABLED_KEY = "f_power_off_enabled"
     const val DIALOG_CLOSE_TRIGGER_SEQUENCE_KEY = "dialog_close_trigger_sequence"
     const val DIALOG_CLOSE_TRIGGER_SEQUENCE_DEFAULT = "UUDD"
@@ -30,6 +31,7 @@ object Constants {
     enum class SpecialPermission(val value: String) {
         ACCESSIBILITY("Accessibility"),
         DND("Do Not Disturb"),
+        OVERLAY("Draw Over Other Apps")
     }
 
     // Logging Constants

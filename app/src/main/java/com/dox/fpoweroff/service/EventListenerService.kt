@@ -13,6 +13,15 @@ import javax.inject.Inject
 
 @AndroidEntryPoint
 class EventListenerService : AccessibilityService() {
+    companion object {
+        private var instance: EventListenerService? = null
+        fun getServiceContext(): Context? = instance?.applicationContext
+    }
+    override fun onCreate() {
+        super.onCreate()
+        instance = this
+    }
+
     @Inject
     lateinit var powerMenuOverrideEvent: PowerMenuOverrideEvent
 

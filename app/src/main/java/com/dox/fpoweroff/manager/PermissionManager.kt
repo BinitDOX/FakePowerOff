@@ -6,6 +6,8 @@ import android.app.NotificationManager
 import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
+import android.net.Uri
+import android.os.Build
 import android.provider.Settings
 import android.widget.Toast
 import androidx.core.content.ContextCompat.startActivity
@@ -25,6 +27,10 @@ class PermissionManager @Inject constructor() {
         return enabledServicesSetting?.contains(expectedComponentName.flattenToString()) == true
     }
 
+    private fun isOverlayPermissionGranted(context: Context): Boolean {
+        return Settings.canDrawOverlays(context)
+    }
+
     private fun isNotificationPolicyPermissionGranted(context: Context): Boolean{
         val notificationManager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
         return notificationManager.isNotificationPolicyAccessGranted
@@ -34,8 +40,12 @@ class PermissionManager @Inject constructor() {
         val action = when (specialPermission) {
             Constants.SpecialPermission.ACCESSIBILITY -> Settings.ACTION_ACCESSIBILITY_SETTINGS
             Constants.SpecialPermission.DND -> Settings.ACTION_NOTIFICATION_POLICY_ACCESS_SETTINGS
+            Constants.SpecialPermission.OVERLAY -> Settings.ACTION_MANAGE_OVERLAY_PERMISSION
         }
         val intent = Intent(action)
+        if (specialPermission == Constants.SpecialPermission.OVERLAY) {
+            intent.data = Uri.parse("package:${context.packageName}")
+        }
         intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
         context.startActivity(intent)
         Toast.makeText(context, "Please grant ${specialPermission.value} permission", Toast.LENGTH_SHORT).show()
@@ -63,6 +73,17 @@ class PermissionManager @Inject constructor() {
         }
     }
 
+    fun checkOverlayPermission(context: Context, launchPermissionIntent: Boolean = true): Boolean {
+        return if (!isOverlayPermissionGranted(context)) {
+            if (launchPermissionIntent) {
+                startSpecialPermissionActivity(context, Constants.SpecialPermission.OVERLAY)
+            }
+            false
+        } else {
+            true
+        }
+    }
+
     fun showAccessibilityDisclosureDialog(context: Context, onContinue: () -> Unit) {
         AlertDialog.Builder(context, R.style.AlertDialogCustom)
             .setTitle(context.getString(R.string.prominent_disclosure_title))
@@ -74,9 +95,6 @@ class PermissionManager @Inject constructor() {
                 dialog.cancel()
             }
             .setNegativeButton("Cancel") { _, _ ->
-                (context as Activity).finish()
-            }
-            .setOnDismissListener {
                 (context as Activity).finish()
             }
             .create()

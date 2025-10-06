@@ -1,30 +1,43 @@
 <resources>
     <string name="app_name">FPowerOff</string>
 
+    <!-- Fake Power Menu -->
     <string name="restart">Restart</string>
     <string name="power_off">Power Off</string>
     <string name="emergency">Emergency</string>
-
     <string name="shutting_down">Shutting down...</string>
 
-    <string name="screen_settings">Settings</string>
-    <string name="screen_home">Fake Power Off</string>
+    <!-- Screen Titles -->
+    <string name="screen_dashboard">Dashboard</string>
+    <string name="screen_tutorial">Tutorial</string>
+    <string name="screen_advanced_settings">Advanced Settings</string>
+    <string name="screen_about">About</string>
 
+    <!-- Dashboard Screen -->
+    <string name="dashboard_status_title">Status</string>
+    <string name="dashboard_status_enabled">Enabled</string>
+    <string name="dashboard_status_disabled">Disabled</string>
+    <string name="dashboard_status_tutorial_incomplete">Tutorial Incomplete</string>
+    <string name="dashboard_main_toggle_title">Enable Fake Power Off</string>
+    <string name="dashboard_main_toggle_desc">Primary toggle for the FPO service.</string>
+    <string name="dashboard_sequence_title">Current Recovery Sequence</string>
+    <string name="dashboard_sequence_edit_button">Edit</string>
+    <string name="dashboard_tutorial_prompt">Please complete the tutorial to enable and configure Fake Power Off.</string>
+    <string name="dashboard_tutorial_prompt_button">Go to Tutorial</string>
+    <string name="dashboard_test_toast">Test initiated! Use your sequence to exit.</string>
+    <string name="dashboard_test_fpo_button">Run a Safe Simulation</string>
+    <string name="dashboard_test_fpo_desc">Experience the full fake shutdown sequence. The screen will go black, vibrate, and an auto-recovery countdown will appear. You can also use your volume key sequence to exit early.</string>
+    <string name="toast_accessibility_required">Accessibility permission is required for FPO.</string>
+
+    <!-- Settings & Placeholders -->
     <string name="placeholder_dialog_close_trigger_sequence">Power off dismiss sequence</string>
-    <string name="placeholder_enable_fake_power_off">Enable Fake Power Off</string>
     <string name="placeholder_dnd_mode_enabled">Enable DND Mode</string>
     <string name="placeholder_lock_device_enabled">Enable Lock Device</string>
     <string name="placeholder_detect_package_name">Detect Package Name</string>
     <string name="placeholder_detect_keywords">Detect Keywords</string>
 
-    <string name="btn_settings">Settings</string>
-
-    <string name="setting_desc_enable_fake_power_off">
-        This setting will enable the fake power off service.
-        Accessibility permission is required to use this service.</string>
     <string name="setting_desc_power_off_dismiss_sequence">
-        After the fake power off is completed, the device will be blocked by an empty black screen.
-        Dismiss the screen using custom sequential volume button presses.
+        Dismiss the black screen using sequential volume button presses.
         The sequence must only include \'U\' for volume up and \'D\' for volume down.</string>
     <string name="setting_desc_enable_dnd_mode">
         If enabled, this setting will put the device into DND mode during the fake
@@ -40,19 +53,58 @@
     <string name="setting_desc_detect_keywords">
         These are the keywords that will be detected by the accessibility service, under the package specified above to override the default power menu.
         You may change these (comma separated) if the default power menu is not being overridden or it gets triggered by false positives.</string>
+    <string name="setting_desc_dont_change">" This setting typically should not be altered. "</string>
 
-    <string name="text_instructions">Usage instructions:
-        \n1. Enable Fake Power Off in the settings menu.
-        \n2. Configure rest of the settings as needed.
-        \n3. Hold power button for ~5s for original power menu.
-        \n4. FPO will dismiss the original power menu with a fake menu.
-        \n5. Pressing any of the buttons will trigger the fake shutdown.
-        \n6. Use the set volume buttons to recover from the black overlay.
-        \n7. Wake the device first (Power button) before inputting the sequence.</string>
+
+    <!-- Tutorial Screen -->
+    <string name="tutorial_step_1_title">Welcome &amp; Permission</string>
+    <string name="tutorial_step_1_desc">To work its magic, FPowerOff needs Accessibility permission. This allows it to detect and override the system power menu.</string>
+    <string name="tutorial_button_open_settings">Open Settings</string>
+    <string name="tutorial_button_check_permission">I\'ve Enabled It</string>
+    <string name="tutorial_permission_granted">Permission Granted!</string>
+    <string name="tutorial_permission_not_granted">Permission not yet granted.</string>
+
+    <string name="tutorial_step_2_title">Set Recovery Sequence</string>
+    <string name="tutorial_step_2_desc">This is the most important step. Create a sequence of Volume Up (U) and Volume Down (D) presses to recover from the black screen. Minimum 4 characters.</string>
+    <string name="tutorial_button_volume_up">Volume Up (U)</string>
+    <string name="tutorial_button_volume_down">Volume Down (D)</string>
+    <string name="tutorial_button_delete">Delete</string>
+    <string name="tutorial_sequence_empty">Your sequence is empty</string>
+
+    <string name="tutorial_step_3_title">Practice Your Sequence</string>
+    <string name="tutorial_step_3_desc">Let\'s make sure you remember your sequence. You must successfully complete this 3 times to proceed.</string>
+    <string name="tutorial_practice_attempts">Successful attempts: %1$d/3</string>
+    <string name="tutorial_button_start_practice">Start Practice</string>
+    <string name="tutorial_button_reset_practice">Reset Practice</string>
+    <string name="tutorial_button_reset_practice_desc">In-case nothing is being detected, press the reset button once.</string>
+    <string name="tutorial_practice_success">Great job! One more down.</string>
+
+    <string name="tutorial_step_4_title">Configure Trigger Word</string>
+    <string name="tutorial_step_4_desc">Please press and hold your power button. We will detect the words on your power menu. The word you select will be the trigger for the Fake Power Off.</string>
+    <string name="tutorial_step_4_success_desc">Success! We found these words. Choose one as your trigger, a unique word like "Emergency" or "SOS" helps prevent accidental activation. Ignore any keywords shown before opening the power menu.</string>
+
+    <string name="tutorial_step_5_title">Setup Complete!</string>
+    <string name="tutorial_step_5_desc">You\'re ready to go! Here\'s a quick reminder of how to use FPowerOff:</string>
+    <string name="tutorial_step_5_instruction_1">When you need to use it (like in an anti-theft situation), press and hold your power button.</string>
+    <string name="tutorial_step_5_instruction_2">FPowerOff will override the real menu with a fake one.</string>
+    <string name="tutorial_step_5_instruction_3">Pressing any button on the fake menu will trigger the fake shutdown sequence.</string>
+    <string name="tutorial_step_5_final_prompt">To confirm everything is working, please run one last simulation. The "Finish" button will unlock once the simulation is complete.
+        You must dismiss the black screen by using the volume button sequence, before the timer expires in order to complete the simulation.</string>
+    <string name="tutorial_step_5_button_run_sim">Run Final Simulation</string>
+
+
+    <string name="tutorial_button_finish">Finish</string>
+    <string name="tutorial_button_next">Next</string>
+    <string name="tutorial_button_back">Back</string>
+
+    <!-- Recommendation Labels -->
+    <string name="recommendation_most">Most Recommended</string>
+    <string name="recommendation_recommended">Recommended</string>
+
+    <!-- Misc -->
     <string name="text_about">The Fake Power Off app simulates device shutdown with a minimal animation.
         Perfect for deterring unauthorized access, the app provides a convincing visual effect without actually powering off the device.
         Ideal for use with anti-theft apps and remains effective even when the device is locked.</string>
     <string name="prominent_disclosure_title">Prominent Disclosure: Permission Required</string>
     <string name="prominent_disclosure_body">\nThis app requires the Accessibility Service permission to provide its core functionality. Specifically, this permission allows the app to:\n\n1. Detect when the power menu is opened.\n2. Replace the default power menu with a custom fake power menu.\n3. Simulating a device shutdown by using an overlay.\n4. Detect volume button press sequence to recover from the overlay.\n\nThe Accessibility Service permission is crucial for the app to function correctly and provide the intended user experience. This app does not change any settings without your permission, bypass Android\'s built-in privacy controls, or engage in any deceptive practices.\n\nAdditionally, the app requests the Do Not Disturb (DND) permission to optionally put the device in the DND mode during the fake power off simulation. This permission is optional and can be granted if you wish to use this feature.\n\nBy continuing, you acknowledge the necessity of these permissions for the app\'s functionality. Do you wish to proceed?\n</string>
-    <string name="setting_desc_dont_change">" This setting typically should not be altered. "</string>
 </resources>

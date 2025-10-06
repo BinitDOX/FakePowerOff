@@ -1,6 +1,7 @@
 package com.dox.fpoweroff
 
 import android.app.Application
+import com.dox.fpoweroff.logging.CrashlyticsTree
 import com.dox.fpoweroff.logging.FileLoggingTree
 import com.dox.fpoweroff.utility.Constants.PRIVATE_LOGS
 import dagger.hilt.android.HiltAndroidApp
@@ -14,6 +15,8 @@ class FPowerOffApplication : Application() {
 
         if (BuildConfig.DEBUG) {
             Timber.plant(Timber.DebugTree())
+        } else {
+            Timber.plant(CrashlyticsTree())
         }
 
         Timber.plant(FileLoggingTree(this, PRIVATE_LOGS))
