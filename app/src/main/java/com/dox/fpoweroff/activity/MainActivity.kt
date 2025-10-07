@@ -3,6 +3,7 @@ package com.dox.fpoweroff.activity
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.activity.enableEdgeToEdge
 import com.dox.fpoweroff.manager.InAppUpdateManager
 import com.dox.fpoweroff.manager.PermissionManager
 import com.dox.fpoweroff.manager.SharedPreferencesManager
@@ -27,6 +28,8 @@ class MainActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        enableEdgeToEdge()
 
         if (!permissionManager.checkAccessibilityPermission(this, false)) {
             permissionManager.showAccessibilityDisclosureDialog(this) {

@@ -90,6 +90,7 @@ class TestSequenceManager @Inject constructor(
         dialog.window?.let { window ->
             window.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT)
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+                window.attributes.layoutInDisplayCutoutMode = WindowManager.LayoutParams.LAYOUT_IN_DISPLAY_CUTOUT_MODE_ALWAYS
                 val controller = window.insetsController
                 controller?.let {
                     it.hide(WindowInsets.Type.statusBars() or WindowInsets.Type.navigationBars())
