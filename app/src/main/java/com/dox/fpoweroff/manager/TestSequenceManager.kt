@@ -2,6 +2,7 @@ package com.dox.fpoweroff.manager
 
 import android.app.Dialog
 import android.content.Context
+import android.graphics.Color
 import android.os.Build
 import android.os.VibrationEffect
 import android.os.Vibrator
@@ -85,10 +86,25 @@ class TestSequenceManager @Inject constructor(
             if (dialog.isShowing) dialog.dismiss()
         }
     }
-
     private fun makeDialogImmersive(dialog: Dialog) {
         dialog.window?.let { window ->
+            // 1. Remove the default dim background and make the window fill the screen
+            window.clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND)
+            window.setBackgroundDrawableResource(android.R.color.black)
+
+            // 2. Allow the window to extend into the "No Man's Land" (behind nav bars)
+            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
+            window.addFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS)
+
+            // 3. Set bar colors to transparent so they don't show a 'scrim' or tint
+            window.statusBarColor = Color.BLACK
+            window.navigationBarColor = Color.BLACK
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+                window.navigationBarDividerColor = Color.BLACK
+            }
+
             window.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT)
+
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
                 window.attributes.layoutInDisplayCutoutMode = WindowManager.LayoutParams.LAYOUT_IN_DISPLAY_CUTOUT_MODE_ALWAYS
                 val controller = window.insetsController
@@ -97,10 +113,16 @@ class TestSequenceManager @Inject constructor(
                     it.systemBarsBehavior = WindowInsetsController.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
                 }
             } else {
+                // Android 10 (API 29) and below
+                window.attributes.layoutInDisplayCutoutMode = WindowManager.LayoutParams.LAYOUT_IN_DISPLAY_CUTOUT_MODE_ALWAYS
+
                 @Suppress("DEPRECATION")
-                window.decorView.systemUiVisibility = (View.SYSTEM_UI_FLAG_FULLSCREEN
+                window.decorView.systemUiVisibility = (View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
+                        or View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                        or View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                        or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
                         or View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
-                        or View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY)
+                        or View.SYSTEM_UI_FLAG_FULLSCREEN)
             }
         }
     }

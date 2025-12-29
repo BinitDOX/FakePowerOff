@@ -12,6 +12,8 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.MaterialTheme
@@ -28,6 +30,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -44,6 +47,7 @@ fun AdvancedSettingsScreen(
     viewModel: AdvancedSettingsViewModel = hiltViewModel()
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+    val isTestingVoidMode by viewModel.isTestingVoidMode.collectAsStateWithLifecycle()
 
     Scaffold(
         topBar = { TopBar(navController, R.string.screen_advanced_settings, false) }
@@ -70,6 +74,50 @@ fun AdvancedSettingsScreen(
                 isChecked = uiState.isLockDeviceEnabled,
                 onCheckedChange = { viewModel.setLockDeviceEnabled(it) }
             )
+
+            SettingsSwitchItem(
+                titleRes = R.string.placeholder_void_mode_enabled,
+                descriptionRes = R.string.setting_desc_void_mode,
+                isChecked = uiState.isVoidModeEnabled,
+                onCheckedChange = { viewModel.setVoidModeEnabled(it) }
+            )
+
+            if (uiState.isVoidModeEnabled) {
+                Card(
+                    modifier = Modifier.fillMaxWidth(),
+                    colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant)
+                ) {
+                    Column(
+                        modifier = Modifier.padding(16.dp),
+                        horizontalAlignment = Alignment.CenterHorizontally
+                    ) {
+                        Text(
+                            text = "Test Void Mode",
+                            style = MaterialTheme.typography.titleMedium
+                        )
+                        Spacer(modifier = Modifier.height(8.dp))
+                        Text(
+                            text = "Verify that Shizuku can dim your screen. Press again to restore brightness.",
+                            style = MaterialTheme.typography.bodySmall,
+                            color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.7f),
+                            textAlign = TextAlign.Center
+                        )
+                        Spacer(modifier = Modifier.height(16.dp))
+
+                        Button(
+                            onClick = { viewModel.toggleVoidModeTest() },
+                            colors = if (isTestingVoidMode) {
+                                ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.error)
+                            } else {
+                                ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primary)
+                            },
+                            modifier = Modifier.fillMaxWidth()
+                        ) {
+                            Text(if (isTestingVoidMode) "Restore Brightness" else "Set Brightness to 0")
+                        }
+                    }
+                }
+            }
 
             SettingsTextFieldItem(
                 labelRes = R.string.placeholder_detect_keywords,

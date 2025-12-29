@@ -15,8 +15,12 @@ import com.dox.fpoweroff.R
 import com.dox.fpoweroff.manager.KeywordDetectionManager
 import com.dox.fpoweroff.manager.OverlayManager
 import com.dox.fpoweroff.manager.SharedPreferencesManager
+import com.dox.fpoweroff.manager.ShizukuManager
 import com.dox.fpoweroff.manager.TestSequenceManager
 import com.dox.fpoweroff.utility.Constants
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -25,12 +29,13 @@ class PowerMenuOverrideEvent @Inject constructor(
     private val sharedPreferencesManager: SharedPreferencesManager,
     private val overlayManager: OverlayManager,
     private val keywordDetectionManager: KeywordDetectionManager,
-    private val testSequenceManager: TestSequenceManager
+    private val shizukuManager: ShizukuManager
 ) {
     companion object {
         var fPowerOffEnabled = false
         var dndModeEnabled = false
         var lockDeviceEnabled = false
+        var voidModeEnabled = false
         var detectPackageName = ""
         var detectKeywords = listOf<String>()
     }
@@ -39,6 +44,7 @@ class PowerMenuOverrideEvent @Inject constructor(
         fPowerOffEnabled = sharedPreferencesManager.get(Constants.F_POWER_OFF_ENABLED_KEY).toBoolean()
         dndModeEnabled = sharedPreferencesManager.get(Constants.DND_MODE_ENABLED_KEY).toBoolean()
         lockDeviceEnabled = sharedPreferencesManager.get(Constants.LOCK_DEVICE_ENABLED_KEY).toBoolean()
+        voidModeEnabled = sharedPreferencesManager.get(Constants.VOID_MODE_ENABLED_KEY).toBoolean()
         detectPackageName = sharedPreferencesManager.get(Constants.DETECT_PACKAGE_NAME_KEY).toString()
         detectKeywords = sharedPreferencesManager.get(Constants.DETECT_KEYWORDS_KEY)?.split(',')
             ?.map { it.trim() } ?: Constants.DETECT_KEYWORDS_DEFAULT.split(',')
@@ -147,6 +153,11 @@ class PowerMenuOverrideEvent @Inject constructor(
 
         if (lockDeviceEnabled) {
             performGlobalAction(GLOBAL_ACTION_LOCK_SCREEN)
+        }
+        if (voidModeEnabled) {
+            CoroutineScope(Dispatchers.IO).launch {
+                shizukuManager.enableVoidMode()
+            }
         }
         if (dndModeEnabled) {
             val mNotificationManager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager

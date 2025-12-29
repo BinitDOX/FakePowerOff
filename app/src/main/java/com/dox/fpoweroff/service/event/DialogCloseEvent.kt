@@ -4,6 +4,7 @@ import android.view.KeyEvent
 import com.dox.fpoweroff.manager.OverlayManager
 import com.dox.fpoweroff.manager.PracticeManager // <-- IMPORT
 import com.dox.fpoweroff.manager.SharedPreferencesManager
+import com.dox.fpoweroff.manager.ShizukuManager
 import com.dox.fpoweroff.manager.TestOverlayManager
 import com.dox.fpoweroff.service.EventListenerService
 import com.dox.fpoweroff.utility.Constants.DIALOG_CLOSE_TRIGGER_SEQUENCE_DEFAULT
@@ -19,7 +20,8 @@ class DialogCloseEvent @Inject constructor(
     private val sharedPreferencesManager: SharedPreferencesManager,
     private val overlayManager: OverlayManager,
     private val practiceManager: PracticeManager,
-    private val testOverlayManager: TestOverlayManager
+    private val testOverlayManager: TestOverlayManager,
+    private val shizukuManager: ShizukuManager
 ) {
     companion object {
         var dialogCloseTriggerSequence: String? = null
@@ -114,6 +116,9 @@ class DialogCloseEvent @Inject constructor(
             triggerState++
             if (triggerState == triggerSequence.length) {
                 triggerState = 0
+                CoroutineScope(Dispatchers.IO).launch {
+                    shizukuManager.disableVoidMode()
+                }
                 overlayManager.hideOverlay(EventListenerService.getServiceContext() ?: return)
             }
         } else {

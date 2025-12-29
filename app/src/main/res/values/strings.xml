@@ -35,6 +35,7 @@
     <string name="placeholder_lock_device_enabled">Enable Lock Device</string>
     <string name="placeholder_detect_package_name">Detect Package Name</string>
     <string name="placeholder_detect_keywords">Detect Keywords</string>
+    <string name="placeholder_void_mode_enabled">Enable Void Mode</string>
 
     <string name="setting_desc_power_off_dismiss_sequence">
         Dismiss the black screen using sequential volume button presses.
@@ -54,6 +55,7 @@
         These are the keywords that will be detected by the accessibility service, under the package specified above to override the default power menu.
         You may change these (comma separated) if the default power menu is not being overridden or it gets triggered by false positives.</string>
     <string name="setting_desc_dont_change">" This setting typically should not be altered. "</string>
+    <string name="setting_desc_void_mode">Requires Shizuku. Forces screen brightness to 0 and disables auto-brightness during fake shutdown for a pitch-black look.</string>
 
 
     <!-- Tutorial Screen -->

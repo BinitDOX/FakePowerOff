@@ -26,6 +26,7 @@ object Constants {
     const val DETECT_PACKAGE_NAME_DEFAULT = SYSTEM_UI_PACKAGE
     const val DETECT_KEYWORDS_KEY = "detect_keywords"
     const val DETECT_KEYWORDS_DEFAULT = "power off, restart, emergency, poweroff, shutdown, shut down"
+    const val VOID_MODE_ENABLED_KEY = "void_mode_enabled"
 
     // Permission Constants
     enum class SpecialPermission(val value: String) {
